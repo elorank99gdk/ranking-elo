@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranking Güsak</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f8f9fa;
+      color: #333;
+    }
+    h1 {
+      margin-top: 20px;
+    }
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      width: 300px;
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+    th {
+      background: #007bff;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>Ranking Güsak</h1>
+
+  <h2>Fútbol</h2>
+  <table id="tabla-futbol">
+    <thead>
+      <tr><th>Jugador</th><th>ELO</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <h2>Mus</h2>
+  <table id="tabla-mus">
+    <thead>
+      <tr><th>Jugador</th><th>ELO</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const urls = {
+      futbol: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6FZZe3x0lW1-5EIl1J64CM087PlaEpSKGznZ8CNOFwFqZdpIN36zzz3pZAziH9SASn8cbe0-ZQ1zQ/pub?gid=0&single=true&output=csv",
+      mus: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6FZZe3x0lW1-5EIl1J64CM087PlaEpSKGznZ8CNOFwFqZdpIN36zzz3pZAziH9SASn8cbe0-ZQ1zQ/pub?gid=744508119&single=true&output=csv"
+    };
+
+    function cargarTabla(url, tablaId) {
+      fetch(url)
+        .then(res => res.text())
+        .then(data => {
+          const filas = data.trim().split("\n").slice(1); // Quitamos cabecera
+          const tbody = document.querySelector(`#${tablaId} tbody`);
+          tbody.innerHTML = ""; // Limpia contenido previo
+          const jugadores = filas.map(f => {
+            const [jugador, elo] = f.split(",");
+            return { jugador, elo: parseFloat(elo) };
+          });
+          // Ordenar por ELO descendente
+          jugadores.sort((a, b) => b.elo - a.elo);
+          jugadores.forEach(j => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td>${j.jugador}</td><td>${j.elo}</td>`;
+            tbody.appendChild(tr);
+          });
+        });
+    }
+
+    cargarTabla(urls.futbol, "tabla-futbol");
+    cargarTabla(urls.mus, "tabla-mus");
+  </script>
+</body>
+</html>
