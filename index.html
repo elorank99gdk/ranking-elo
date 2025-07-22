@@ -40,15 +40,42 @@
     td:nth-child(2) {
       text-align: center;
     }
+    .botones {
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.botones button {
+  background-color: #4E4938; /* Marrón oscuro */
+  color: #FFF0B8; /* Amarillo claro */
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.botones button:hover {
+  background-color: #333; /* Negro al pasar el ratón */
+}
+
+.botones button.activo {
+  background-color: #FFF0B8;
+  color: #4E4938;
+  border: 2px solid #4E4938;
+}
   </style>
 </head>
 <body>
   <h1>Ranking Güsak</h1>
-  <label for="selector">Selecciona ranking:</label>
-  <select id="selector">
-    <option value="futbol">Fútbol</option>
-    <option value="mus">Mus</option>
-  </select>
+<div class="botones">
+  <button id="btn-futbol" class="activo">Fútbol</button>
+  <button id="btn-mus">Mus</button>
+</div>
 
 <div id="futbol-container">
   <h2>Fútbol</h2>
